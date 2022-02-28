@@ -136,5 +136,5 @@ PoW、PoS
 
 ![1646023344312](../../img/1646023344312.png)
 
-[论文连接](../../articles/blockchain/review/Theories_Modelings_Tools.pdf)
+[论文链接](../../articles/blockchain/review/Theories_Modelings_Tools.pdf)
 
