@@ -38,19 +38,25 @@ cat ~/.ssh/id_rsa.pub
 6.在本地创建一个文件，并提交到本地仓库
 
 ```shell
+git checkout -b dev
 echo "test" >> test
 git add ./
 git commit -m "v0.1"
+```
+
+8.将其它分支合并到主分支
+
+```shell
+git checkout main
+git merge dev
 ```
 
 7.将本地仓库关联远程仓库，并推送至远程仓库
 
 ```
 git remote add origin "远程仓库的ssh地址"
-git push origin
+git push origin main
 ```
 
 ![1638978878828](../../img/1638978878828.png)
-
-
 
