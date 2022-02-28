@@ -8,7 +8,7 @@
 
 ## Framework Design
 
-API层**
+**API层**
 
 将缓存和区块链层的功能抽象，为边缘应用提供接口，其包含三种操作：
 
@@ -77,7 +77,7 @@ $\Theta$可以根据需求而改变，通常将其设置为0.75
 
 **共识解释**
 
-1.对于一个设备，其在Bitcoin中所需花费的算力为$E_{pow}$，而对于PoC来说，一个设备所需花费的算力为$E_{PoC}$
+1.对于一个设备，其在Bitcoin中所需花费的算力为$E_{pow}$，而对于PoC来说，一个设备所需花费的算力为$E_{PoC} $。
 $$
 E_{pow} = \frac{target_max}{target} * 2^{32} \\\\
 E_{pow} = \frac{target_max}{CC*P*target} * 2^{32} = \frac{1}{CC*P} * E_{pow}
@@ -150,4 +150,3 @@ $$
 2.空心区块会不会浪费过多的资源传播交易列表哈希？
 
 [论文链接](../../articles/blockchain/edge_computing/xu2018.pdf)
-
