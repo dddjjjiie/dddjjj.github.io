@@ -81,7 +81,8 @@ $\Theta$可以根据需求而改变，通常将其设置为0.75
 
 2.对于整个网络，规则3限制了参与挖矿设备的数量降低了分叉的概率，因为当一个矿工成功挖取到一个区块后，该矿工需要等待L才能继续参与挖矿
 $$
-E_{poc} = \frac{target_max}{CC * P * target} * 2^{32} = \frac{1}{CC*P} * E_{pow}
+E_{poc} = \frac{target_max}{CC * P * target} * 2^{32} = \frac{1}{CC*P} * E_{pow} \\\\
+E_{pow} = \frac{target_max}{target} * 2^{32}
 $$
 
 ## Transaction Offloading
