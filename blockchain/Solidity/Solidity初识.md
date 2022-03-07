@@ -151,3 +151,24 @@ function balances(address _account) external view returns(uint){
 <font color='red'>require(msg.sender == minter)</font>：确保只有合约创建者才能调用该函数，如果不是则会丢弃以及撤销所有的状态变化
 
 <font color='red'>error</font>：配合<font color='red'>revert</font>使用，与require类似，但是可以提供更多的信息
+
+## 存储
+
+EVM有四个存储区域：storage、memory、calldata、stack
+
+### storage
+
+指永久存储在区块链中的变量所存储的位置，其是一个map，将256bit的字映射到256bit的字，合约的状态变量会存储到该区域，地址从0开始连续布局
+
+### memory
+
+指函数执行期间数据存放的临时位置，其是一个字节数组，每个数组成员大小为256bit，又分为calldata和stack
+
+### calldata
+
+外部函数的参数所存放的位置，也可用于其它变量
+
+### stack
+
+用来保存函数的局部变量，每个栈元素占256bit，最大能存储16个变量
+
