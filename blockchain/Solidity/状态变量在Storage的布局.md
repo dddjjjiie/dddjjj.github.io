@@ -84,6 +84,12 @@ bytes和string编码完全一样，通常会有一个槽存储该数组，其它
 * label：类型名
 * numberOfBytes：所使用字节数量
 
+## 参考
+
+[Layout of State Variables in Storage](https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html)
+
+[详解SOLIDITY合约数据存储布局](https://learnblockchain.cn/books/geth/part7/storage.html)
+
 
 
 
