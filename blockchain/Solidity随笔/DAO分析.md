@@ -2,7 +2,7 @@
 
 DAO一共有9个合约，分别是TokenInterface、Token、ManagedAccountInterface、ManagedAccount、TokenCreationInterface、TokenCreation、DAOInterface、DAO、DAO_Creator
 
-![img13213123123](../../img/img13213123123.jpg)
+![image12312391283](../../img/image12312391283.jpg)
 
 ## DAO中的Token类型
 
@@ -60,6 +60,28 @@ $$
 ## 资金流向
 
 ![img](../../img/68747470733a2f2f63646e2d696d616765732d312e6d656469756d2e636f6d2f6d61782f313230302f302a6f66554a446b6743466b4b797a7932732e.png)
+
+### Token创建
+
+在token创建阶段，所有的ether都会流向DAO account和Extra account。
+
+具体的说，DAO account中只接收发行的token数量的以太，其它以太全都会被送往Extra account
+
+### Proposal execution(投资)
+
+当一个提议被赞成，DAO就会向提议中的接收地址发送一定量的以太。当接收地址为一个内部账户(合约)，该提议可以指定具体的函数以及参数用于DAO进行函数调用。
+
+当提议被执行时，DAO会产生reward token，1RT等同于1Wei。
+
+### Receive rewards(投资返还)
+
+当投资挣钱后，应该将以太发往DAOrewardAccount账户。
+
+任何对该提议投资了的DAO可以通过执行retriveDAOReward()方法将DAOrewardAccount账户的以太按投资比例取出。
+
+### Pay dividends process
+
+当DHT想分红时，DHT可以通过调用getMyReward()方法获得投资比率的以太
 
 ## TokenInterface
 
@@ -192,11 +214,11 @@ contract DAOInterface {
 
     uint constant splitExecutionPeriod = 27 days; //分割提议执行周期
 
-    uint constant quorumHalvingPeriod = 25 weeks;//
+    uint constant quorumHalvingPeriod = 25 weeks;//用于更新法人数的计算
 
     uint constant executeProposalPeriod = 10 days; //提议执行周期
 
-    uint constant maxDepositDivisor = 100;
+    uint constant maxDepositDivisor = 100; //用于计算提议所需最低存款
 
     Proposal[] public proposals; //提议
 
@@ -477,6 +499,66 @@ contract DAO is DAOInterface, Token, TokenCreation {
         uint256 _value
     ) internal returns (bool success);
 ```
+
+## 重放攻击
+
+在spiltDAO函数中，先调用了withdrawRewardFor函数用于将用户的投资回报发放给用户，而在withdrawReward函数中，先将投资回报发放给用户再增加已发放给用户的投资金额，因此用户可以无限制的取地投资回报
+
+```js
+function splitDAO(
+	uint _proposalID,
+	address _newCurator
+) noEther onlyTokenholders returns (bool _success) {
+        ...
+		// Move ether and assign new Tokens
+        uint fundsToBeMoved =
+            (balances[msg.sender] * p.splitData[0].splitBalance) /
+            p.splitData[0].totalSupply;
+        if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)
+            throw;
+
+
+            // Assign reward rights to new DAO
+            uint rewardTokenToBeMoved =
+                (balances[msg.sender] * p.splitData[0].rewardToken) /
+                p.splitData[0].totalSupply;
+
+        uint paidOutToBeMoved = DAOpaidOut[address(this)] * rewardTokenToBeMoved /
+            rewardToken[address(this)];
+
+        rewardToken[address(p.splitData[0].newDAO)] += rewardTokenToBeMoved;
+        if (rewardToken[address(this)] < rewardTokenToBeMoved)
+            throw;
+            rewardToken[address(this)] -= rewardTokenToBeMoved;
+
+        DAOpaidOut[address(p.splitData[0].newDAO)] += paidOutToBeMoved;
+        if (DAOpaidOut[address(this)] < paidOutToBeMoved)
+            throw;
+            DAOpaidOut[address(this)] -= paidOutToBeMoved;
+
+        // Burn DAO Tokens
+        Transfer(msg.sender, 0, balances[msg.sender]);
+        withdrawRewardFor(msg.sender); // be nice, and get his rewards
+        totalSupply -= balances[msg.sender];
+        balances[msg.sender] = 0;
+        paidOut[msg.sender] = 0;
+		return true;
+}
+
+function withdrawRewardFor(address _account) noEther internal returns (bool _success) {
+    if ((balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply < paidOut[_account])
+        throw;
+
+        uint reward =
+            (balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply - paidOut[_account];
+    if (!rewardAccount.payOut(_account, reward))
+        throw;
+        paidOut[_account] += reward;
+    return true;
+}
+```
+
+
 
 ## 参考
 
