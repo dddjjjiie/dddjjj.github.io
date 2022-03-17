@@ -44,4 +44,4 @@ hash_output_A用于从区块链中选择64个交易，并将所选择交易的ID
 
 ## 参考
 
-[论文链接](../../articles/blockchain/consensus/Hashimoto IO bound proof of work.pdf)
+[论文链接](../../articles/blockchain/consensus/Hashimoto-IO-bound-proof-of-work.pdf)
