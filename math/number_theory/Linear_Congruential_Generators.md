@@ -31,7 +31,7 @@ if c > 0, we can achieve a full period by such:
 if c = 0, a full period is not possible. A maximum number of random variables can be achieved by such:
 
 * A maximum period generator which period is m-1，is one in which a is primitive element(本原元) modulo m，if m is prime
-* m is often set to the largest prime number less than $2^b$.The most commonly used modulus is $2^31 - 1$
+* m is often set to the largest prime number less than $2^b$.The most commonly used modulus is $2^{31} - 1$
 
 ## 参考
 
