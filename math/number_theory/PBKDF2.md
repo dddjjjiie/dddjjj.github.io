@@ -24,7 +24,7 @@ where:
 Each hLen-bit block Ti of derived key DK, is computed as follows
 
 ```js
-DK = T1 || T2 || ... || Tdklen/hlen
+DK = T1 || T2 || ... || T(dklen/hlen)
 Ti = F(Password, Salt, c, i)
 ```
 
