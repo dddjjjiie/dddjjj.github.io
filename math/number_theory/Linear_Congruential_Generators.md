@@ -1,6 +1,6 @@
 # Linear Congruential Generators
 
-LGC us a source of random numbers. The form of generator is
+LCG us a source of random numbers. The form of generator is
 $$
 X_{i+1} = (aX_i + c) \; mod \; m, with \; 0 \le X_i \le m
 $$

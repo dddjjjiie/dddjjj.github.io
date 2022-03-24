@@ -12,7 +12,7 @@
 
 将缓存和区块链层的功能抽象，为边缘应用提供接口，其包含三种操作：
 
-* 读、谢、执行交易
+* 读、写、执行交易
 * 为边缘设备的操作设计策略配置
 * 查询其它边缘设备的数据
 
@@ -79,8 +79,8 @@ $\Theta$可以根据需求而改变，通常将其设置为0.75
 
 1.对于一个设备，其在Bitcoin中所需花费的算力为$E_{pow}$，而对于PoC来说，$E_{PoC}$为一个设备所需花费的算力
 $$
-E_{poc} = \frac{target_max}{CC * P * target} * 2^{32} = \frac{1}{CC*P} * E_{pow} \\\\
-E_{pow} = \frac{target_max}{target} * 2^{32}
+E_{poc} = \frac{target_{max}}{CC * P * target} * 2^{32} = \frac{1}{CC*P} * E_{pow} \\\\
+E_{pow} = \frac{target_{max}}{target} * 2^{32}
 $$
 
 
@@ -117,7 +117,7 @@ $$
 $$
 T_{max} = \sum_{i \in \Gamma_{max} \wedge V}T_{i}^{v} + \sum_{j \in \Gamma_{max} \wedge E }T_{j}^{c}
 $$
-其中$\Gamma$为传播时间最长的路径，V为网络中所有节点，E为所有连接，$T_{i}^{v}$为节点i验证时间，$T_j^c$为节点j的传播时间
+其中$\Gamma_{max}$为传播时间最长的路径，V为网络中所有节点，E为所有连接，$T_{i}^{v}$为节点i验证时间，$T_j^c$为节点j的传播时间	
 
 **快速交易(E-TX)**
 
