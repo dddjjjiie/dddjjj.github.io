@@ -55,6 +55,7 @@ git merge dev
 
 ```
 git remote add origin "远程仓库的ssh地址"
+git remote -v
 git push origin main
 ```
 
