@@ -26,4 +26,19 @@ It's difficult to use one time pad in practice. The reason it's difficult to use
 
  **Basic idea**: If all you get to see is the cyphertext, then you should learn absolutely nothing about the plain text. In other words, the cyphertext should reveal no information about the plain text.
 
-**Definition**: Suppose we have a cypher E D that's defined over triple K M and C just as before. We say the cypher has perfect secrecy if the following condition holds. For every two message $m_0$ and $m_1$ in the message space, the only requirement I'm gonna put on these messge is they have the same length $len(m_0) = len(m_1)$. And for every ciphertext in the C, if we pick a random key $k$ where k is uniform in K $k \stackrel{R}{\leftarrow} K$, if $Pr[E(k, m_0) = c] = Pr[E(k, m_1) = c]$, then we say the cipher has **perfect secrecy**.  What it says is that if I'm an attacker and I intercept a particular cyphertext c, then in reality, the probability that the cyphertext is the encryption of $M_0$ is exactly the same as the probability that it's the encryption of $m_1$. So if all I have the cyphertext c, I have no idea whether the cyphertext came from $m_0$ or the cyphertext came from $m_1$.
+**Definition**: Suppose we have a cypher E D that's defined over triple K M and C just as before. We say the cypher has perfect secrecy if the following condition holds. For every two message $m_0$ and $m_1$ in the message space, the only requirement I'm gonna put on these messge is they have the same length $len(m_0) = len(m_1)$. And for every ciphertext in the C, if we pick a random key $k$ where k is uniform in K $k \stackrel{R}{\leftarrow} K$, if $Pr[E(k, m_0) = c] = Pr[E(k, m_1) = c]$, then we say the cipher has **perfect secrecy**.  What it says is that if I'm an attacker and I intercept a particular cyphertext c, then in reality, the probability that the cyphertext is the encryption of $M_0$ is exactly the same as the probability that it's the encryption of $m_1$. So if all I have the cyphertext c, I have no idea whether the cyphertext came from $m_0$ or the cyphertext came from $m_1$, whether  how smart I am, how powerful I am.
+
+**Lemma**: One time pad has perfect secrecy. The prove as follows:
+$$
+\forall m, c: \; Pr[E(k, m) = c] = \frac{\text{the numer of keys such E(k, m)=c}}{|K|}
+$$
+Let $m \in M$ and $c \in C$, how many OTP keys map $m$ to $c$? Just one.
+$$
+k = c \oplus m
+$$
+So for all message $m$ and cyphertext $c$, the value of numerator is one, $|K|$ is also a constant. As a consequence of, the above fomulation is a constant.
+
+**Lemma**: If a cypher has perfect secrecy, the number of keys in the cypher must be at least the number of messages.
+$$
+|K| \geq |M|
+$$
