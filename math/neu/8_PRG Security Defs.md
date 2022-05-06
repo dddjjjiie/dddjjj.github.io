@@ -48,5 +48,43 @@ $$
 $$
 Adv_{PRG} = |Pr[A(G(k)) = 1] - Pr[A(r) = 1]| = 1/6
 $$
+We will say that $A$ breaks the generator $G$ with advantage $1/6$.
 
+## Secure PRGs
 
+A generator $G$ is secure if no efficient statistical tests can distinguish its output from random. More precisely, what we'll say is that for all efficient tests, if I looked at the advantage of the statistical tests relative to $G$. This advantage is negligible.
+
+Can we actually construct a generator and then prove that it is in fact a secure PRG? In other words, prove that no efficient statistical test can distinguish its output from random. And it turns out that the answer is we actually can't.
+
+**Easy fact**: A secure PRG is unpredictable.
+
+Then we're gonna say that if you give me a generator that is predictable, then is' insecure. Suppose $A$ is an efficient algorithm as follows:
+$$
+Pr[A(G(k)|_{1,..,i}) = G(k)|_{i+1}] = \frac{1}{2} + \epsilon \; \text{ where } \epsilon \; \text{is non-negligible}
+$$
+Define statistical test $B$ as follows. Given a string $x$, what it will do is it will simple run algorithm $A$ on the first $i$-bit of the string $x$ that it was given. And statistical test $B$ is simple is gonna ask was successful in predicting the $i+1$ bit of the string? If it was successful, then it's gonna output 1. And if it wasn't successful, then it's gonna output 0.
+$$
+B(x) = \begin{cases}
+		1 \; \text{ where } A(x|_{1,...,i}) = x_{i+1} \\
+		0 \; \text{otherwise}
+	   \end{cases}
+$$
+Give $B$ a truly random string $r \stackrel{R}{\leftarrow} \{0, 1\}^n$, what is the probability that $B$ output 1? For a truly random string, the $i+1$ bit is totally independent of the first $i$-bits. So the probability is $1/2$.
+$$
+r \stackrel{R}{\leftarrow} \{0, 1\}^n \; Pr[B(r) = 1] = \frac{1}{2}
+$$
+Give $B$ a pseudo-random sequence $G(k): k \stackrel{R}{\leftarrow}K$, what is the probability that $B$ output 1? The probability is greater than $\frac{1}{2} + \epsilon$.
+$$
+G(k): k \stackrel{R}{\leftarrow}K \; Pr[B(G(k)) = 1] > \frac{1}{2} + \epsilon
+$$
+If we look at the advantage of the statistical test $B$ over the generator $G$, which is the difference between these two quantity that is clearly greater than $\epsilon$. What this means is that if algorithm $A$ is able to predict the next bit with advantange $\epsilon$, then algorithm $B$ is able to distinguish the output of the generator with advantage $\epsilon$.
+
+**Theory**: An unpredictable PRG is secure. If $\forall i \in \{0,..., n-1\}$ PRG $G$ is unpredictable at position $i$, then $G$ is a secure PRG.
+
+**Example**: Let $G:K \to \{0, 1\}^n$ be a PRG such that from the last $\frac{n}{2}$ bits of $G(K)$, it is easy to compute the first $\frac{n}{2}$ bits. Is $G$ predictable for some $i \in \{0,..., n-1\}$?
+
+**Definition** Let $P_1$ and $P_2$ be two distributions over $\{0, 1\}^n$, we say that $P_1$ and $P_2$ are computationally indistinguishable(denoted $P_1 \approx_{p} P_2$) if $\forall$ efficient statistical test $A$ that:
+$$
+| Pr[A(k) = 1] - Pr[A(r) = 1] | \lt negligible \; \text{ where } k \leftarrow P_1, r \leftarrow P_2
+$$
+A PRG is secure if $\{k \stackrel{R}{\leftarrow}K: G(k) \approx_p uniform(\{0, 1\}^n)\}$
