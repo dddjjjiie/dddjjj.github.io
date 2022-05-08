@@ -102,7 +102,7 @@ $$
 
 ## XOR
 
-Suppose we have a random variable $y$. That's distributed arbitrarily over $\{0, 1\}^b$. So we know nothing about the distribution of $y$. But now, suppose we have an independent random variable that happens to be uniformly distributed  over $\{0, 1\}^b$. So the random variable $z$ which is the XOR of $x$ and $y$, then no matter what distribution $y$ started with, $z$ is always going to be a uniform, random variable.
+Suppose we have a random variable $y$. That's distributed arbitrarily over $\{0, 1\}^b$. So we know nothing about the distribution of $y$. But now, suppose we have an independent random variable $x$ that happens to be uniformly distributed  over $\{0, 1\}^b$. So the random variable $z$ which is the XOR of $x$ and $y$, then no matter what distribution $y$ started with, $z$ is always going to be a uniform, random variable.
 
 ![1651665989546](../../img/1651665989546.png)
 

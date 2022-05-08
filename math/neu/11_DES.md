@@ -45,3 +45,45 @@ It takes 32 bit value $x$ as input, remember this is $R_0, ..., R_{14}$ and so o
 These S boxes are just functions from 6 bits to 4 bits. They are just implemented as a look up table. For example, if you want to look at the output that corresponds to "011011".  Then you look at the first and last bit "01", and then look at the middle 4 bits "1101", and you see that the output is 1001.
 
 ![1651842692520](../../img/1651842692520.png)
+
+Image the S boxes were linear. Image that these 6 bix inputs literally were just XORed with one another in different ways to produce the 4 bit outputs. 
+$$
+S_i(x_1, x_2,..., x_6) = (x_2 \oplus x_3, x_1 \oplus x_4 \oplus x_5, x_1 \oplus x_6, x_2 \oplus x_3 \oplus x_6)
+$$
+Another way of writing that is that we can write S box as a matrix vector product. This is why we say that in this case the S boxes are completely linear.
+$$
+S_i(x) = A_i \cdot x \; (mod 2)
+$$
+![1651843375096](../../img/1651843375096.png)
+
+If the S boxes were linear, then DES would be totally insecure. The reason is that if the S boxes are linear, then all that DES does is just compute XOR of various things and permute and shuffle bits around, which means that as a result, all of DES is just a linear function. In other words, there will be a matrix $B$ that has width 832 and length 64. Then write the 64 bit message plus the sixteen round keys(48bits) as one long vector. Then when you compute these matrix vector products, you get the different bits of ciphertext. So there's 64 bit of these rows and as a result, you get 64 bits of ciphertext.
+
+![1651843949197](../../img/1651843949197.png)
+
+The S boxes are the only nonlinear part of DES. So if the S boxes were liner, then the entire circuit is linear and therefor can be expressed as this matrix. For example, if you did the XOR of three outputs of DES, we would see the following
+$$
+DES(k, m_1) \oplus DES(k, m_2) \oplus DES(k, m_3) \\
+B \cdot \begin{pmatrix}
+			m_1 \\
+			k
+		\end{pmatrix} \oplus B \cdot \begin{pmatrix}
+										m_2 \\
+										k
+									 \end{pmatrix} \oplus B \cdot \begin{pmatrix}
+									 								m_3 \\
+									 								k
+									 							  \end{pmatrix} =
+\begin{pmatrix}
+	m_1 \oplus m_2 \oplus m_3 \\
+	k \oplus k \oplus k
+\end{pmatrix}
+$$
+This is not a relation that is going to hold for a random function. A random function is not going to satisfy this equality. Ans so you get a very easy test to tell you that DES is not a random function.
+
+**Choosing the X-boxes and P-box**
+
+If you choose the S boxes at random, it turns out they'll tend to be somewhat close to linear functions, so the designers of DES specified a number of rules they use for choosing the S boxes:
+
+1.No output should be close to a linear function of the input bits. In other words, there is no function that agrees with a large fraction if the outputs of the S box.
+
+2.S-boxes are 4-to-1 maps. Every output of the S-boxes have four pre-images and so on and so forth.
