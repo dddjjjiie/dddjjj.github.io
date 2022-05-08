@@ -24,4 +24,18 @@ Suppose we want the adversary's advantage to be less than $\frac{1}{2^{32}}$. Th
 
 ## Attack On CBC 
 
-Suppose that given a encryption in a message that attacker can actually predict that $IV$ which will be used for the next message. The first thing the adversary is going to do is to ask for the encryption of a one block message. In particular that one block is going to be 0. So what the adversary then gets back is the encryption of the message 0 $c_1 = [IV_1, E(k, 0 \oplus IV_1)]$. Next the adversary is going to issue his semantic security challenge and the message $m_0$ is going
+Suppose that given a encryption in a message that attacker can actually predict that $IV$ which will be used for the next message. The first thing the adversary is going to do is to ask for the encryption of a one block message. In particular that one block is going to be 0. So what the adversary then gets back is the encryption of the message 0 $c_1 = [IV_1, E(k, 0 \oplus IV_1)]$. Next the adversary is going to issue his semantic security challenge and the message $m_0$ is going to be $IV_1 \oplus IV$, where $IV$ is the predicted initial value, message $m_1 \neq m_0$. When the adversary receives the encryption of $m_0$,  he is actually receiving the block cipher encryption of $IV_1$ which is the same as the encryption of 0. So the advantage of this adversary is going to be 1.
+
+![1652017263013](../../img/1652017263013.png)
+
+## Nonce-based CBC
+
+In this mode, the $IV$ is replaced by non random but unique nonce, for example $1, 2,..., 5$ could all be used as a nonce. Then we're going to use $k_1$ to encrypt the nonce and use $k$ to encrypt the message block.
+
+![1652017626733](../../img/1652017626733.png)
+
+If you just directly use the nonce in CBC encryption. In other words, use the nonce as the $IV$. Then the non-random nonce would not be CPA secure. And if $k = k_1$, that is also not gonna be CPA secure and can lead to significant attacks.
+
+## Padding
+
+What to do when the message is not a multiple of the block cipher block length? And the answer is if we add a pad to the last block so it becomes as long as sixteen bytes, as long as the AES block size. A pad with $n$ bytes, then what you do is write the number $n$, $n$ times. When the decrypter receives the message, what he does is he looks at the last byte of the last block. Suppose that value is 5, then he removes the last 5 bytes. Now the question is what do we do if in fact the message is a multiple of 16 bytes? We still add a dummy block that's contains 16 bytes, each one contain the number 16.
