@@ -1,4 +1,4 @@
-# Discrete Probility
+# 	Discrete Probility
 
 A universe is going to be simply the set of all n bit strings which here is denoted by $U=\{0, 1\}^n$. For example the set $\{0, 1\}^2 = \{00, 01, 10, 11\}$ is the set of all two bit strings.
 
